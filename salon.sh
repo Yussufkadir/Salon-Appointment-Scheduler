@@ -26,11 +26,12 @@ then
 echo -e "\nWhat is your name ?"
 read CUSTOMER_NAME
 INSERT_CUSTOMER_INFO=$($PSQL "insert into customers(name,phone) values('$CUSTOMER_NAME','$CUSTOMER_PHONE')")
+else
 echo -e "\nPlease choose a Appointment time"
 read SERVICE_TIME
 CUSTOM_ID=$($PSQL "select customer_id from customers where phone='$CUSTOMER_PHONE'")
 echo "$CUSTOM_ID"
-SERVICE_TIME_CHECK=$($PSQL "select time from appointments where customer_id=$CUSTOM_ID")
+SERVICE_TIME_CHECK=$($PSQL "select time from appointments where time='$SERVICE_TIME'")
 if [[ -z $SERVICE_TIME_CHECK ]]
 then
   INSERT_APPOINTMENT_TIME=$($PSQL "insert into appointments(customer_id,service_id,time) values('$CUSTOM_ID','$REQUESTED_SERVICE_ID','$SERVICE_TIME')")
